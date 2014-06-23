@@ -17,8 +17,6 @@ REPORTING=[]
 THD_LOCK = threading.Lock()
 
 
-
-
 def start_site_monitoring_app(arg):
     read_url_config(arg[0])
     createStats(arg[0])
@@ -37,7 +35,7 @@ def main():
     
 def main_dev():
     start_site_monitoring_app(["D:\\Users\\kaushik.ganguly\\Documents\\GitHub\\FetchP\\SiteMonitorConfig.xml"])
-    print("monitoring started")
+    print("FetchP stopped")
     
 if __name__ == '__main__':
     main_dev()
