@@ -17,6 +17,8 @@ import xml.dom.minidom
 import time
 from fetchp.fetchthread import url_monitor_thread
 
+import requests
+
 def isNotNullOrEmpty(value):
     if  value == None or (isinstance(value, str) and value.isspace()):
         return False
@@ -90,7 +92,7 @@ def createStatsFromURLConfig(config):
     if (config.hasAttribute("url") and isNotNullOrEmpty(config.getAttribute("url"))) and (config.hasAttribute("interval") and isNotNullOrEmpty(config.getAttribute("interval"))) and (config.hasAttribute("latencyThreshold") and isNotNullOrEmpty(config.getAttribute("latencyThreshold"))):
         c=fetchurlstat(config.getAttribute("url"),int(config.getAttribute("interval")),int(config.getAttribute("latencyThreshold")))
         STATS.append(c)
-#        print(c)
+        #print(c)
     
 def createStats(filename):
         DOMTree = xml.dom.minidom.parse(filename)
@@ -122,19 +124,18 @@ def updateStat(url,success,error,errormsg,latency):
                 stat.errorpercentage=(float(stat.failurepollcount)/float(stat.pollcount))*100
             break
         
+
+        
+        
         
 def createURLMonitorThreads():
     thds=[]
     for i in range(0,len(CONFIGS)):
-        thd=url_monitor_thread(CONFIGS[i],STATS[i])
-        print("created")
+        #print(i,STATS[i])
+        thd=url_monitor_thread(i)
         thd.start()
         thds.append(thd)
     return thds
-
-
-
-
 
 
 

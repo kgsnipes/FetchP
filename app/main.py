@@ -7,6 +7,7 @@ import sys
 import threading
 from fetchp.fetchutil import *
 
+
 CONFIGS=[]
 STATS=[]
 NOTIFIER=[]
@@ -35,7 +36,7 @@ def main():
     
     
 def main_dev():
-    start_site_monitoring_app(["D:\\Users\\kaushik.ganguly\\Documents\\GitHub\\SiteMonitor\\SiteMonitoringTool\\config\\SiteMonitorConfig.xml"])
+    start_site_monitoring_app(["D:\\Users\\kaushik.ganguly\\Documents\\GitHub\\FetchP\\SiteMonitorConfig.xml"])
     print("monitoring started")
     
 if __name__ == '__main__':
