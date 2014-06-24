@@ -14,45 +14,46 @@
 	
 </head>
 <body>
-	<h1>PANIC !! PANIC !! ${stat.URI} IS DOWN</h1>
+	<h1>PANIC !! PANIC !! {{stat.uri}} IS DOWN</h1>
 	<h3>Statistics so far..</h3>
 	<table border="1">
 			<thead>
 				<tr>
-					<td colspan="2">Site URL : ${stat.URI}</td>
+					<td colspan="2">Site URL : {{stat.uri}}</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>Polled </td><td>${stat.pollCount} times</td>
+					<td>Polled </td><td>{{stat.pollcount}} times</td>
 				</tr>
 				<tr>
-					<td>Success Percentage </td><td><label class="bold">${stat.successPercentage} %</label></td>
+					<td>Success Percentage </td><td><label class="bold">{{stat.successpercentage}} %</label></td>
 				</tr>
 				<tr>
-					<td>Failure Percentage </td><td><label class="bold">${stat.errorPercentage} % </label></td>
+					<td>Failure Percentage </td><td><label class="bold">{{stat.errorpercentage}} % </label></td>
 				</tr>
 				<tr>
-					<td>Latest Failure </td><td><#if stat.lastFailurePoint??>  ${stat.lastFailurePoint?datetime} <#else> NA </#if></td>
+					<td>Latest Failure </td><td>  {{stat.lastfailurepoint}} </td>
 				</tr>
 				<tr>
-					<td>Latest Failure Message </td><td><#if stat.lastFailureMessage??>  ${stat.lastFailureMessage} <#else> NA </#if></td>
+					<td>Latest Failure Message </td><td> {{stat.lasterrormessage}} </td>
 				</tr>
 				<tr>
-					<td>Average latency </td><td>${stat.averageLatency} Seconds</td>
+					<td>Average latency </td><td>{{stat.averagelatency}} Seconds</td>
 				</tr>
-				<#if stat.errorLogs??>
+		
+				{% if stat.errorlogs is defined %}
 					<tr>
 						<td colspan="2">
 						<label class="bold">Error Logs: </label>
 								<ul>
-									<#list stat.errorLogs as err>
-										<li><label class="bold">${err.time?datetime} - </label>${err.message}</li>
-									</#list>
+									{% for err in stat.errorlogs %}
+										<li><label class="bold">{{err}}</li>
+									{% endfor %}
 								</ul>						
 						</td>
 					</tr>
-				</#if>
+				{% endif %}
 			<tbody>	
 	</table>
 </body>

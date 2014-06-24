@@ -43,6 +43,7 @@ def read_url_config(filename):
         urlconfig = collection.getElementsByTagName("URLMonitor")
         for config in urlconfig:
             read_url_tag_config(config)
+        return CONFIGS
 
 def read_notifier_config(filename):
         DOMTree = xml.dom.minidom.parse(filename)
@@ -50,6 +51,7 @@ def read_notifier_config(filename):
         urlconfig = collection.getElementsByTagName("notifier")
         for config in urlconfig:
             read_notifier_config_tag(config)
+        return NOTIFIER
 
 def read_notifier_config_tag(config):
     if (config.hasAttribute("type") and isNotNullOrEmpty(config.getAttribute("type"))) \
@@ -73,6 +75,7 @@ def read_reporting_config(filename):
         urlconfig = collection.getElementsByTagName("URLMonitor")
         for config in urlconfig:
             read_reporting_config_tag(config)
+        return REPORTING
             
             
 def read_reporting_config_tag(config):
@@ -105,6 +108,7 @@ def createStats(filename):
         urlconfig = collection.getElementsByTagName("URLMonitor")
         for config in urlconfig:
             createStatsFromURLConfig(config)
+        return STATS
 
 def updateStat(url,success,error,errormsg,latency):
     for stat in STATS:
@@ -164,8 +168,19 @@ def getFileSize(filename):
 
 def renderSiteStatsOnTemplate(filename):
     mytemplate = Template(readFileToString(filename))
+    print(len(STATS))
     print(mytemplate.render({"stats":STATS}))
+    
+def renderSiteStatOnTemplate(stat,filename):
+    mytemplate = Template(readFileToString(filename))
+    print(mytemplate.render({"stat":stat}))
     
     
     
 # this is from util file                
+
+
+#renderSiteStatsOnTemplate("page_templates\\site_stats.txt")
+#    renderSiteStatsOnTemplate("page_templates\\email_site_stats.txt")
+#    renderSiteStatOnTemplate(STATS[0],"page_templates\\error_email_notification.txt")
+    
