@@ -31,41 +31,41 @@
 		<h1>Fetch - Site Monitoring Statistics</h1>
 		<h3>Statistics so far..</h3>
 		
-		% for stat in enumerate(context[stats]):
+		{% for stat in stats %}
 		<div class="col-md-7 col-lg-7 col-xs-7 col-sm-7">
 			<table class="table table-striped  table-condensed table-hover">
 			<thead>
 				<tr>
-					<td>Site URL : ${stat.uri}</td>
+					<td>Site URL : {{stat.uri}}</td>
 					<td></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>Polled </td><td>${stat.pollcount} times</td>
+					<td>Polled </td><td>{{stat.pollcount}} times</td>
 				</tr>
 				<tr>
-					<td>Success Percentage </td><td><label class="bold">${stat.successpercentage} %</label></td>
+					<td>Success Percentage </td><td><label class="bold">{{stat.successpercentage}} %</label></td>
 				</tr>
 				<tr>
-					<td>Failure Percentage </td><td><label class="bold">${stat.errorpercentage} % </label></td>
+					<td>Failure Percentage </td><td><label class="bold">{{stat.errorpercentage}} % </label></td>
 				</tr>
 				<tr>
-					<td>Latest Failure </td><td>  ${stat.lastfailurepoint} </td>
+					<td>Latest Failure </td><td>  {{stat.lastfailurepoint}} </td>
 				</tr>
 				<tr>
-					<td>Latest Failure Message </td><td> ${stat.lasterrormessage} </td>
+					<td>Latest Failure Message </td><td> {{stat.lasterrormessage}} </td>
 				</tr>
 				<tr>
-					<td>Average latency </td><td>${stat.averagelatency} Seconds</td>
+					<td>Average latency </td><td>{{stat.averagelatency}} Seconds</td>
 				</tr>
 			<tbody>	
 			</table>
 			</div>
 			<div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
-				<div id="chartRender${stat_index}"></div>
+				<div id="chartRender{{loop.index}}"></div>
 			</div>
-		% endfor
+		{% endfor %}
 	</div>
 	
 	
@@ -91,7 +91,7 @@
       
 	</script>
 	<script>
-	% for stat in enumerate(context[stats]):
+	{% for stat in stats %}
 	
 			allChartTables.push(function(){
 			
@@ -100,8 +100,8 @@
 	        data.addColumn('number', 'Percentage');
 	      
 	        data.addRows([
-	          ['Success', ${stat.successpercentage}],
-	          ['Failure', ${stat.errorpercentage}],
+	          ['Success', {{stat.successpercentage}}],
+	          ['Failure',{{stat.errorpercentage}}],
 	     
 	        ]);
 	
@@ -111,12 +111,12 @@
 	                       'height':300};
 	
 	        // Instantiate and draw our chart, passing in some options.
-	        var chart = new google.visualization.PieChart(document.getElementById("chartRender${stat_index}"));
+	        var chart = new google.visualization.PieChart(document.getElementById("chartRender{{loop.index}}"));
 	        chart.draw(data, options);
 			
 			});
 					
-		% endfor
+		{% endfor %}
 	</script>
 </body>
 </html>

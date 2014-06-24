@@ -21,9 +21,7 @@ import os
 
 import requests
 
-from mako.template import Template
-from mako.runtime import Context
-
+from jinja2 import Template
 
 
 def isNotNullOrEmpty(value):
@@ -166,7 +164,7 @@ def getFileSize(filename):
 
 def renderSiteStatsOnTemplate(filename):
     mytemplate = Template(readFileToString(filename))
-    print(mytemplate.render([{'stats':STATS}]))
+    print(mytemplate.render({"stats":STATS}))
     
     
     
