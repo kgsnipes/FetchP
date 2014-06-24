@@ -17,7 +17,14 @@ import xml.dom.minidom
 import time
 from fetchp.fetchthread import url_monitor_thread
 
+import os
+
 import requests
+
+from mako.template import Template
+from mako.runtime import Context
+
+
 
 def isNotNullOrEmpty(value):
     if  value == None or (isinstance(value, str) and value.isspace()):
@@ -138,5 +145,29 @@ def createURLMonitorThreads():
     return thds
 
 
+def readFileToString(filename):
+    file=open(getCurrentDirectoryPath()+filename,"r")
+    retval=file.read(getFileSize(getCurrentDirectoryPath()+filename))
+    file.close()
+    return retval
+    
+def getCurrentDirectoryPath():
+    filepath=os.path.dirname(os.path.realpath(__file__))
+    if os.name.find("nt",0,len(os.name))!=-1:
+        index=filepath.rfind("\\", 0 ,len(filepath))
+        return filepath[0:index+1]
+    
+    
+    
+def getFileSize(filename):
+    st = os.stat(filename)
+    return st.st_size
 
+
+def renderSiteStatsOnTemplate(filename):
+    mytemplate = Template(readFileToString(filename))
+    print(mytemplate.render([{'stats':STATS}]))
+    
+    
+    
 # this is from util file                
