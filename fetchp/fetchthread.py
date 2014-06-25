@@ -4,22 +4,11 @@ Created on 24-Jun-2014
 @author: kaushik.ganguly
 '''
 
-import threading
-import time
+from app.main import *
 
-from app.main import CONFIGS
-from app.main import STATS
-from app.main import NOTIFIER
-from app.main import REPORTING
-from app.main import THD_LOCK
+from jinja2 import Template
 
 import requests
-
-from fetchp.fetchutil import *
-import sys
-
-
-
 
 class url_monitor_thread (threading.Thread):
     def __init__(self, index):
@@ -76,16 +65,43 @@ class url_monitor_thread (threading.Thread):
             STATS[self.index].failurepollcount=STATS[self.index].failurepollcount+1
             STATS[self.index].lastfailurepoint=time.time()
             STATS[self.index].lasterrormessage=errormsg
-            STATS[self.index].errorlogs.append(errormsg)
+            STATS[self.index].errorlogs.append(failuremessage(time.time(),errormsg))
         
         if STATS[self.index].latency>0 :
-            STATS[self.index].averagelatency=STATS[self.index].latency/STATS[self.index].successpollcount
+            STATS[self.index].averagelatency=round(STATS[self.index].latency/STATS[self.index].successpollcount,2)
         if STATS[self.index].successpollcount>0 :
             STATS[self.index].successpercentage=(float(STATS[self.index].successpollcount)/float(STATS[self.index].pollcount))*100
         if STATS[self.index].failurepollcount>0 :
             STATS[self.index].errorpercentage=(float(STATS[self.index].failurepollcount)/float(STATS[self.index].pollcount))*100
         print(STATS[self.index])
+        self.updateSiteStatsToOutputFile()
+        
+    def readFileToString(self,filename):
+        file=open(self.getCurrentDirectoryPath()+filename,"r")
+        retval=file.read(self.getFileSize(self.getCurrentDirectoryPath()+filename))
+        file.close()
+        return retval
     
+    def getCurrentDirectoryPath(self):
+        filepath=os.path.dirname(os.path.realpath(__file__))
+        if os.name.find("nt",0,len(os.name))!=-1:
+            index=filepath.rfind("\\", 0 ,len(filepath))
+            return filepath[0:index+1]
+    
+        
+    def getFileSize(self,filename):
+        st = os.stat(filename)
+        return st.st_size
+    
+    
+    def updateSiteStatsToOutputFile(self):
+        file=open(self.getCurrentDirectoryPath()+"output.html","w")
+        file.write(self.renderSiteStatsOnTemplate("page_templates\\site_stats.txt"))
+        file.close()
+        
+    def renderSiteStatsOnTemplate(self,filename):
+        mytemplate = Template(self.readFileToString(filename))
+        return mytemplate.render({"stats":STATS})
 
    
 

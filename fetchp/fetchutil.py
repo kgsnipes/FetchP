@@ -4,24 +4,9 @@ Created on 23-Jun-2014
 @author: kaushik.ganguly
 '''
 
-from fetchp.fetchclasses import fetchurlconfig
-from fetchp.fetchclasses import fetchnotifier
-from fetchp.fetchclasses import fetchreporting
-from fetchp.fetchclasses import fetchurlstat
-
-from app.main import CONFIGS
-from app.main import STATS
-from app.main import NOTIFIER
-from app.main import REPORTING
+from app.main import *
 import xml.dom.minidom
-import time
-from fetchp.fetchthread import url_monitor_thread
 
-import os
-
-import requests
-
-from jinja2 import Template
 
 
 def isNotNullOrEmpty(value):
@@ -147,35 +132,15 @@ def createURLMonitorThreads():
     return thds
 
 
-def readFileToString(filename):
-    file=open(getCurrentDirectoryPath()+filename,"r")
-    retval=file.read(getFileSize(getCurrentDirectoryPath()+filename))
-    file.close()
-    return retval
-    
-def getCurrentDirectoryPath():
-    filepath=os.path.dirname(os.path.realpath(__file__))
-    if os.name.find("nt",0,len(os.name))!=-1:
-        index=filepath.rfind("\\", 0 ,len(filepath))
-        return filepath[0:index+1]
-    
-    
-    
-def getFileSize(filename):
-    st = os.stat(filename)
-    return st.st_size
 
 
-def renderSiteStatsOnTemplate(filename):
-    mytemplate = Template(readFileToString(filename))
-    print(len(STATS))
-    print(mytemplate.render({"stats":STATS}))
-    
-def renderSiteStatOnTemplate(stat,filename):
-    mytemplate = Template(readFileToString(filename))
-    print(mytemplate.render({"stat":stat}))
-    
-    
+
+     
+# def renderSiteStatOnTemplate(stat,filename):
+#     mytemplate = Template(readFileToString(filename))
+#     return mytemplate.render({"stat":stat})
+#     
+
     
 # this is from util file                
 

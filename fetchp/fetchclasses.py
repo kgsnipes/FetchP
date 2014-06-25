@@ -3,6 +3,7 @@ Created on 23-Jun-2014
 
 @author: kaushik.ganguly
 '''
+from app.main import *
 import smtplib
 
 class fetchurlconfig:
@@ -120,3 +121,9 @@ class Gmail:
             self.email,
             headers + "\r\n\r\n" + body)
         self.session.quit()
+        
+        
+class failuremessage:
+    def __init__(self,time,msg):
+        self.time=time
+        self.msg=msg
