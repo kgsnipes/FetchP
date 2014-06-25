@@ -7,8 +7,10 @@ Created on 24-Jun-2014
 from app.main import *
 
 from jinja2 import Template
-
+import datetime
 import requests
+import socket
+from urllib.parse import urlparse
 
 class url_monitor_thread (threading.Thread):
     def __init__(self, index):
@@ -29,8 +31,11 @@ class url_monitor_thread (threading.Thread):
 
     def process_url(self):
         try:
-            self.retval=self.getTheProcessedRequest(CONFIGS[self.index].uri,0)
-            self.doTimeRelatedCalculation()
+            if self.is_connected():
+                self.retval=self.getTheProcessedRequest(CONFIGS[self.index].uri,0)
+                self.doTimeRelatedCalculation()
+            else:
+                self.updateParticularStat(0,1,"INTERNET CONNECTIVITY IS DOWN",0.0)
         except:
             e = sys.exc_info()[0]
             self.updateParticularStat(0,1,e,self.retval[1])
@@ -63,16 +68,16 @@ class url_monitor_thread (threading.Thread):
         elif error==1:
             STATS[self.index].pollcount=STATS[self.index].pollcount+1
             STATS[self.index].failurepollcount=STATS[self.index].failurepollcount+1
-            STATS[self.index].lastfailurepoint=time.time()
+            STATS[self.index].lastfailurepoint= datetime.datetime.now()
             STATS[self.index].lasterrormessage=errormsg
-            STATS[self.index].errorlogs.append(failuremessage(time.time(),errormsg))
+            STATS[self.index].errorlogs.append(failuremessage(datetime.datetime.now(),errormsg))
         
         if STATS[self.index].latency>0 :
             STATS[self.index].averagelatency=round(STATS[self.index].latency/STATS[self.index].successpollcount,2)
         if STATS[self.index].successpollcount>0 :
-            STATS[self.index].successpercentage=(float(STATS[self.index].successpollcount)/float(STATS[self.index].pollcount))*100
+            STATS[self.index].successpercentage=round((float(STATS[self.index].successpollcount)/float(STATS[self.index].pollcount))*100,2)
         if STATS[self.index].failurepollcount>0 :
-            STATS[self.index].errorpercentage=(float(STATS[self.index].failurepollcount)/float(STATS[self.index].pollcount))*100
+            STATS[self.index].errorpercentage=round((float(STATS[self.index].failurepollcount)/float(STATS[self.index].pollcount))*100,2)
         print(STATS[self.index])
         self.updateSiteStatsToOutputFile()
         
@@ -103,5 +108,13 @@ class url_monitor_thread (threading.Thread):
         mytemplate = Template(self.readFileToString(filename))
         return mytemplate.render({"stats":STATS})
 
-   
+    def is_connected(self):
+        try:
+            o = urlparse(CONFIGS[self.index].uri)
+            host = socket.gethostbyname(o.netloc)
+            s = socket.create_connection((host, 80),CONFIGS[self.index].threshold)
+            return True
+        except:
+            pass
+        return False
 
