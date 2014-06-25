@@ -1,7 +1,7 @@
 <html>
 <head>
 
-<meta http-equiv="refresh" content="30">
+<meta http-equiv="refresh" content="10">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
@@ -19,6 +19,11 @@
 		label.bold
 		{
 			font-weight:bold;
+		}
+		.error_logs
+		{
+			max-height:400px;
+			overflow:auto;
 		}
 	</style>
 	
@@ -42,7 +47,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>Polled </td><td>6 times</td>
+					<td>Polled </td><td>20 times</td>
 				</tr>
 				<tr>
 					<td>Success Percentage </td><td><label class="bold">0.0 %</label></td>
@@ -51,7 +56,7 @@
 					<td>Failure Percentage </td><td><label class="bold">100.0 % </label></td>
 				</tr>
 				<tr>
-					<td>Latest Failure </td><td>  2014-06-25 14:44:23.867840 </td>
+					<td>Latest Failure </td><td>  2014-06-25 15:08:00.584872 </td>
 				</tr>
 				<tr>
 					<td>Latest Failure Message </td><td> 404 </td>
@@ -59,6 +64,56 @@
 				<tr>
 					<td>Average latency </td><td>0.0 Seconds</td>
 				</tr>
+				
+					<tr>
+						<td colspan="2">
+						<label class="bold">Error Logs: </label>
+								<ul class="error_logs">
+									
+										<li><label class="bold">2014-06-25 15:04:19.984254 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:04:31.360905 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:04:42.554545 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:04:53.767186 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:05:04.820819 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:05:16.057461 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:05:27.159096 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:05:38.449742 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:05:49.874396 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:06:01.155041 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:06:12.738703 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:06:24.015348 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:06:35.586010 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:06:47.103669 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:06:59.246363 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:07:11.436061 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:07:23.895773 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:07:35.642445 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:07:49.084214 - 404 </label</li>
+									
+										<li><label class="bold">2014-06-25 15:08:00.584872 - 404 </label</li>
+									
+								</ul>						
+						</td>
+					</tr>
+				
 			<tbody>	
 			</table>
 			</div>
@@ -76,23 +131,33 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>Polled </td><td>6 times</td>
+					<td>Polled </td><td>20 times</td>
 				</tr>
 				<tr>
-					<td>Success Percentage </td><td><label class="bold">66.67 %</label></td>
+					<td>Success Percentage </td><td><label class="bold">100.0 %</label></td>
 				</tr>
 				<tr>
-					<td>Failure Percentage </td><td><label class="bold">33.33 % </label></td>
+					<td>Failure Percentage </td><td><label class="bold">0.0 % </label></td>
 				</tr>
 				<tr>
-					<td>Latest Failure </td><td>  2014-06-25 14:43:40.784376 </td>
+					<td>Latest Failure </td><td>  None </td>
 				</tr>
 				<tr>
-					<td>Latest Failure Message </td><td> INTERNET CONNECTIVITY IS DOWN </td>
+					<td>Latest Failure Message </td><td> None </td>
 				</tr>
 				<tr>
-					<td>Average latency </td><td>1.21 Seconds</td>
+					<td>Average latency </td><td>1.76 Seconds</td>
 				</tr>
+				
+					<tr>
+						<td colspan="2">
+						<label class="bold">Error Logs: </label>
+								<ul class="error_logs">
+									
+								</ul>						
+						</td>
+					</tr>
+				
 			<tbody>	
 			</table>
 			</div>
@@ -159,8 +224,8 @@
 	        data.addColumn('number', 'Percentage');
 	      
 	        data.addRows([
-	          ['Success', 66.67],
-	          ['Failure',33.33],
+	          ['Success', 100.0],
+	          ['Failure',0.0],
 	     
 	        ]);
 	

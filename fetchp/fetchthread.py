@@ -25,7 +25,7 @@ class url_monitor_thread (threading.Thread):
         
             # Free lock to release next thread
             THD_LOCK.release()
-            print(STATS[self.index])
+#            print(STATS[self.index])
             time.sleep(STATS[self.index].interval)
             
 
@@ -71,6 +71,7 @@ class url_monitor_thread (threading.Thread):
             STATS[self.index].lastfailurepoint= datetime.datetime.now()
             STATS[self.index].lasterrormessage=errormsg
             STATS[self.index].errorlogs.append(failuremessage(datetime.datetime.now(),errormsg))
+            STATS[self.index].lasterrornotified=False
         
         if STATS[self.index].latency>0 :
             STATS[self.index].averagelatency=round(STATS[self.index].latency/STATS[self.index].successpollcount,2)
@@ -78,8 +79,14 @@ class url_monitor_thread (threading.Thread):
             STATS[self.index].successpercentage=round((float(STATS[self.index].successpollcount)/float(STATS[self.index].pollcount))*100,2)
         if STATS[self.index].failurepollcount>0 :
             STATS[self.index].errorpercentage=round((float(STATS[self.index].failurepollcount)/float(STATS[self.index].pollcount))*100,2)
-        print(STATS[self.index])
+#        print(STATS[self.index])
         self.updateSiteStatsToOutputFile()
+        if  STATS[self.index].lasterrornotified!=True:
+            print("NEED TO SEND MAIL")
+        else:
+            print("EMAIL ALREADY SENT")
+        if len(STATS[self.index].errorlogs)>50:
+            STATS[self.index].errorlogs=STATS[self.index].errorlogs[40:]
         
     def readFileToString(self,filename):
         file=open(self.getCurrentDirectoryPath()+filename,"r")
@@ -113,6 +120,7 @@ class url_monitor_thread (threading.Thread):
             o = urlparse(CONFIGS[self.index].uri)
             host = socket.gethostbyname(o.netloc)
             s = socket.create_connection((host, 80),CONFIGS[self.index].threshold)
+            s.close()
             return True
         except:
             pass
