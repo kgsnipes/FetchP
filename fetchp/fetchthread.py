@@ -65,6 +65,7 @@ class url_monitor_thread (threading.Thread):
             STATS[self.index].pollcount= STATS[self.index].pollcount+1
             STATS[self.index].successpollcount=STATS[self.index].successpollcount+1
             STATS[self.index].latency=STATS[self.index].latency+latency
+            STATS[self.index].latencylogs.append(latencyrecord(time.time(),datetime.datetime.now(),latency))
         elif error==1:
             STATS[self.index].pollcount=STATS[self.index].pollcount+1
             STATS[self.index].failurepollcount=STATS[self.index].failurepollcount+1
@@ -87,6 +88,8 @@ class url_monitor_thread (threading.Thread):
             print("EMAIL ALREADY SENT")
         if len(STATS[self.index].errorlogs)>50:
             STATS[self.index].errorlogs=STATS[self.index].errorlogs[40:]
+        if len(STATS[self.index].latencylogs)>1000:
+            STATS[self.index].latencylogs=STATS[self.index].latencylogs[500:]
         
     def readFileToString(self,filename):
         file=open(self.getCurrentDirectoryPath()+filename,"r")

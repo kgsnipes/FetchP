@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SiteMonitor>
 	
-	<URLMonitor url="http://www.solestruck.com/menssdflkjf/" interval="10" latencyThreshold="5"></URLMonitor>
+	<URLMonitor url="http://www.solestruck.com/mens/" interval="10" latencyThreshold="5"></URLMonitor>
 	<URLMonitor url="http://www.solestruck.com/search-womens-shoes/" interval="10" latencyThreshold="5"></URLMonitor>
 	
 	<notifier type="email" enabled="false" smtp="smtp.gmail.com" smtpPort="587" tls="true" recipients="kgsnipes@gmail.com" cc="" bcc="" userName="kgsnipes@gmail.com" password=""></notifier>

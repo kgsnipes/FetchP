@@ -82,6 +82,9 @@
 			<div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
 				<div id="chartRender{{loop.index}}"></div>
 			</div>
+			<div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+				<div id="chartRenderLine{{loop.index}}"></div>
+			</div>
 		{% endfor %}
 	</div>
 	
@@ -91,9 +94,15 @@
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script>
 		var allChartTables=[];
+		var allLineTables=[];
 		function drawChart()
 		{
 			$.each(allChartTables,function(k,v){
+			
+				v();
+			});
+			
+			$.each(allLineTables,function(k,v){
 			
 				v();
 			});
@@ -132,6 +141,38 @@
 	        chart.draw(data, options);
 			
 			});
+			
+			
+			{% if stat.errorlogs is defined %}
+					
+					allLineTables.push(function(){
+			
+			var data = new google.visualization.DataTable();
+	        data.addColumn('string', 'Time');
+	        data.addColumn('number', 'Seconds');
+	      
+	       data.addRows([
+	      {% for err in stat.latencylogs %}
+			['{{err.date}}', {{err.latency}}],
+		  {% endfor %}
+	       ['',{{stat.averagelatency}}]
+	        ]);
+	
+	        // Set chart options
+	        var options = {'title':'Latency',
+	                       'width':900,
+	                       'height':500};
+	
+	        // Instantiate and draw our chart, passing in some options.
+	        var chart = new google.visualization.LineChart(document.getElementById("chartRenderLine{{loop.index}}"));
+	        chart.draw(data, options);
+			
+			});
+					
+								
+				
+			{% endif %}
+			
 					
 		{% endfor %}
 	</script>

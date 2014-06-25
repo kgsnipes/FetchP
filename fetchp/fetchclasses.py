@@ -78,6 +78,7 @@ class fetchurlstat:
         self.averagelatency=0.0
         self.latency=0.0
         self.errorlogs=[]
+        self.latencylogs=[]
         self.lasterrornotified=None
         
     def __str__(self):
@@ -127,3 +128,9 @@ class failuremessage:
     def __init__(self,time,msg):
         self.time=time
         self.msg=msg
+        
+class latencyrecord:
+    def __init__(self,time,date,latency):
+        self.time=time
+        self.date=date
+        self.latency=latency
